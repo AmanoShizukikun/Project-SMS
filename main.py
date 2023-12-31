@@ -90,7 +90,7 @@ class SMSClassifier(nn.Module):
 # 設置模型參數
 input_size = len(vocab)
 hidden_size = 4096
-output_size = 4  # 四個類別
+output_size = len(label_mapping)
 
 # 初始化模型、損失函數和優化器
 model = SMSClassifier(input_size, hidden_size, output_size)
