@@ -16,8 +16,6 @@ print(device)
 # 取得目前執行程式的資料夾路徑
 current_directory = Path(__file__).resolve().parent
 
-
-
 # 定義神經網路模型
 class SMSClassifier(nn.Module):
     def __init__(self, input_size, hidden_size, output_size):
