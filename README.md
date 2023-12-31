@@ -32,3 +32,36 @@
 - 下載: https://developer.nvidia.com/cuda-toolkit
 - NVIDIA cuDNN
 - 下載: https://developer.nvidia.com/cudnn
+
+### 檔案說明
+- 必要檔案
+  main.py:訓練程式
+  test.py:測試程式
+  SMS_data.json:訓練資料庫
+  
+- 附加檔案(透過main.py生成)
+  config.json:模型配置文件
+  labels.txt:標籤文件
+  SMS_model.bin:模型
+  tokenizer.json:詞彙表
+
+### 安裝
+```shell
+git clone https://github.com/AmanoShizukikun/Project-SMS.git
+cd Project-SMS
+```
+
+- 修改訓練資料庫
+```shell
+.\SMS_data.json
+```
+
+- 開始訓練
+```shell
+python main.py
+```
+
+- 開始測試
+```shell
+python test.py
+```
