@@ -1,0 +1,11 @@
+{
+    "_name_or_path": "Project SMS",
+    "model_type": "Project SMS",
+    "architectures": [
+        "Project SMS Model"
+    ],
+    "input_size": 595,
+    "hidden_size": 4096,
+    "output_size": 4,
+    "learning_rate": 0.001
+}

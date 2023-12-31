@@ -4,6 +4,8 @@ import torch.nn as nn
 import torch.optim as optim
 import numpy as np
 import json
+from tqdm import tqdm
+import time
 
 # 設備選擇如果有NVIDIA顯卡切換為CUDA
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -31,15 +33,14 @@ for value in model_data:
     if 'weight' in value:
         vocab_text.extend(value)
         
-# 將數據標記為不同簡訊類別的標籤
-label_mapping = {
-    "詐騙簡訊": 0,
-    "廣告簡訊": 1,
-    "驗證碼簡訊": 2,
-    "一般簡訊": 3,
-}
-
+# 自動生成標籤編號
 print("<類別標籤生成>")
+label_mapping = {}
+label_count = 0
+for label in outputs:
+    if label not in label_mapping:
+        label_mapping[label] = label_count
+        label_count += 1
 
 # 將標籤儲存為 labels.txt
 labels_path = os.path.join(current_directory, 'labels.txt')
@@ -96,10 +97,15 @@ model = SMSClassifier(input_size, hidden_size, output_size)
 criterion = nn.CrossEntropyLoss()  # 使用 CrossEntropyLoss 作為損失函數
 optimizer = optim.SGD(model.parameters(), lr=1e-3)
 
+# 記錄開始訓練時間
+training_start_time = time.time()
+
 # 訓練模型
-epochs = 500
+epochs = 200
 for epoch in range(epochs):
     total_loss = 0
+    start_time = time.time()
+    
     for text_vector, label in train_data:  # 更新迭代變數為兩個值的元組
         optimizer.zero_grad()
         inputs = torch.tensor(text_vector, dtype=torch.float)
@@ -112,7 +118,20 @@ for epoch in range(epochs):
         
     # 輸出每個 epoch 的平均損失
     average_loss = total_loss / len(train_data)
-    print(f"Epoch [{epoch + 1}/{epochs}], Loss: {average_loss:.4f}")
+    
+    # 計算運行時間
+    elapsed_time = time.time() - start_time
+    # 計算預計完成時間
+    eta = (epochs - epoch - 1) * elapsed_time
+    # 計算總訓練時間
+    total_training_time = time.time() - training_start_time
+    
+     # 動態計算空格填充數量
+    progress = epoch + 1
+    percentage = progress / epochs * 100
+    fill_length = int(50 * progress / epochs)
+    space_length = 50 - fill_length
+    print(f"Processing: {percentage:3.0f}%|{'█' * fill_length}{' ' * space_length}| {progress}/{epochs} [{total_training_time:.2f}<{eta:.2f}, {1 / elapsed_time:.2f}it/s, Loss: {average_loss:.4f}] ")
     
 # 訓練結束 
 print("訓練完成")

@@ -43,7 +43,7 @@ def text_to_vector(text):
     return vector
 
 # 加載模型和 vocab
-def load_model(model_path, vocab_path, config_path, device):
+def load_model(model_path, vocab_path, config_path, label_path, device):
     # 讀取 vocab
     with open(vocab_path, 'r') as json_file:
         vocab = json.load(json_file)
@@ -51,6 +51,13 @@ def load_model(model_path, vocab_path, config_path, device):
     # 讀取模型配置
     with open(config_path, 'r') as json_file:
         model_config = json.load(json_file)
+        
+    # 讀取標籤映射
+    with open(label_path, 'r') as labels_file:
+        label_mapping = {}
+        for line in labels_file:
+            label, index = line.strip().split(': ')
+            label_mapping[label] = int(index)
 
     # 初始化模型並將其移到 CUDA 上
     model = SMSClassifier(model_config['input_size'], model_config['hidden_size'], model_config['output_size'])
@@ -58,23 +65,16 @@ def load_model(model_path, vocab_path, config_path, device):
     model = model.to(device)
     model.eval()
 
-    return model, vocab
+    return model, vocab, label_mapping
 
 # 設定檔案路徑
 VOCAB_PATH = current_directory / "tokenizer.json"
 MODEL_PATH = current_directory / "SMS_model.bin"
 CONFIG_PATH = current_directory / "config.json"
-LABLE_PATH = current_directory / "lables.txt"
+LABEL_PATH = current_directory / "labels.txt"
 
-label_mapping = {
-    "詐騙簡訊": 0,
-    "廣告簡訊": 1,
-    "驗證碼簡訊": 2,
-    "一般簡訊": 3,
-}
-
-# 加载模型和 vocab
-model, vocab = load_model(MODEL_PATH, VOCAB_PATH, CONFIG_PATH, device)
+# 加载模型、vocab和標籤映射
+model, vocab, label_mapping = load_model(MODEL_PATH, VOCAB_PATH, CONFIG_PATH, LABEL_PATH, device)
 
 # 測試模型
 def predict_SMS(text):

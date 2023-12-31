@@ -1,0 +1,4 @@
+Scam SMS: 0
+Advertise SMS: 1
+Captcha SMS: 2
+Normal SMS: 3
