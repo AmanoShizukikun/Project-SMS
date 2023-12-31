@@ -120,6 +120,11 @@
     "output": "Advertise SMS"
   },
   {
+    "instruction": "您好！若您或家人有「往返醫院接送」及「上下樓梯」的需求、並已取得長照資格，可來電洽詢預約訂車，或可參閱台北市社會局網站，亦可致電1966照管中心、或詢問您的個管師。北台灣「長照交通車服務」市話 ",
+    "input": "",
+    "output": "Advertise SMS"
+  },
+  {
     "instruction": "您的驗證碼:，切勿將驗證碼洩露於他人，驗證碼15分鐘內有效",
     "input": "",
     "output": "Captcha SMS"
@@ -170,12 +175,32 @@
     "output": "Captcha SMS"
   },
   {
+    "instruction": "Your Apple ID Code is: . Don't share it with anyone.@apple.com # %apple.com",
+    "input": "",
+    "output": "Captcha SMS"
+  },
+  {
+    "instruction": "Your OpenAI verification code is: ",
+    "input": "",
+    "output": "Captcha SMS"
+  },
+  {
+    "instruction": "Telegram code: You can also tap on this link to log in:https://t.me/login/",
+    "input": "",
+    "output": "Captcha SMS"
+  },
+  {
     "instruction": "<#> ※認證碼請勿外流 LINE認證碼： （30分鐘後失效）",
     "input": "",
     "output": "Captcha SMS"
   },
   {
-    "instruction": "先生為了你牙齒的健康,請於近期內回診所接受陳煜仁醫師的牙結石清除治療康齡牙醫診所預約電話:",
+    "instruction": "Discord 验证代码是：",
+    "input": "",
+    "output": "Captcha SMS"
+  },
+  {
+    "instruction": "先生為了你牙齒的健康,請於近期內回診所接受醫師的牙結石清除治療康齡牙醫診所預約電話:",
     "input": "",
     "output": "Normal SMS"
   },
@@ -196,6 +221,61 @@
   },
   {
     "instruction": "您好！歡迎使用原價屋估價系統，您的估價單號 我們已經收到，客服人員會盡快跟您聯繫！謝謝您的支持",
+    "input": "",
+    "output": "Normal SMS"
+  },
+  {
+    "instruction": "2023/12/24 16:03 您有 來電1通，提醒您，記得回覆重要電話喔！若已接聽或回電請忽略此則簡訊。",
+    "input": "",
+    "output": "Normal SMS"
+  },
+  {
+    "instruction": "12/18於樂購蝦皮以中信簽帳金融卡消費或定期扣繳，金額 元",
+    "input": "",
+    "output": "Normal SMS"
+  },
+  {
+    "instruction": "12/15於京站時尚廣場以中信簽帳金融卡消費或定期扣繳，金額7,490元",
+    "input": "",
+    "output": "Normal SMS"
+  },
+  {
+    "instruction": "【遠傳總經理井琪致原亞太用戶的一封信】親愛的原亞太用戶，您好！誠摯地歡迎您在112年12月15日遠傳亞太合併基準日生效後成為遠傳用戶。完整信件詳見 https://fetnet.tw/",
+    "input": "",
+    "output": "Normal SMS"
+  },
+  {
+    "instruction": "【中國信託轉帳】OTP密碼 當筆有效，網頁識別碼KNVH、轉入帳號後四碼 、TWD$179，請勿告知他人",
+    "input": "",
+    "output": "Normal SMS"
+  },
+  {
+    "instruction": "【警政署提醒您】加LINE投資風險高，投資廣告勿輕信，下載APP、加LINE好友或註冊網站投資必有詐，詳見：165.npa.gov.tw",
+    "input": "",
+    "output": "Normal SMS"
+  },
+  {
+    "instruction": "【警政署提醒您】網購詐騙多，接獲客服或銀行以+號來電請小心查證，勿提供帳戶或配合操作網銀及ATM以免受騙，詳見：165.npa.gov.tw",
+    "input": "",
+    "output": "Normal SMS"
+  },
+  {
+    "instruction": "【警政署提醒您】請勿點擊不明連結，避免遭植入或下載惡意程式，導致大量發送詐騙簡訊詐騙他人，如接獲上述不明簡訊，請踴躍至165官網檢舉。",
+    "input": "",
+    "output": "Normal SMS"
+  },
+  {
+    "instruction": "【警政署提醒您】請勿輕信網路上冒假名人之推薦投資影片或臉書粉專。小心求證為防詐之不二法門，有任何疑問歡迎撥打 165 專線即時查證，以免受騙",
+    "input": "",
+    "output": "Normal SMS"
+  },
+  {
+    "instruction": "【警政署提醒您】網購賣家請注意，詐騙集團近日佯裝買家傳送假客服連結，連結內要求賣家提供銀行帳戶，隨即指示操作ATM匯款，請慎防此詐騙手法!",
+    "input": "",
+    "output": "Normal SMS"
+  },
+  {
+    "instruction": "【警政署提醒您】近日詐騙集團以簡訊佯稱積分、點數到期或個人資料驗證，並提供短連結，這是典型釣魚簡訊詐騙，請勿點擊連結並向165專線檢舉。",
     "input": "",
     "output": "Normal SMS"
   },

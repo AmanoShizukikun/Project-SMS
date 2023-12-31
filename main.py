@@ -101,7 +101,7 @@ optimizer = optim.SGD(model.parameters(), lr=1e-3)
 training_start_time = time.time()
 
 # 訓練模型
-epochs = 200
+epochs = 500
 for epoch in range(epochs):
     total_loss = 0
     start_time = time.time()
@@ -136,7 +136,6 @@ for epoch in range(epochs):
 # 訓練結束 
 print("訓練完成")
 
-
 print("<生成模型配置文件>")
 # 定義模型配置
 model_config = {
@@ -164,7 +163,6 @@ print("<保存模型>")
 model_path = os.path.join(current_directory, 'SMS_model.bin')
 torch.save(model.state_dict(), model_path)
 print(f"保存模型完成 模型保存於 {model_path}")
-
 
 print("<載入測試模式>")
 # 在載入模型權重之前定義 model_path

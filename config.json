@@ -4,7 +4,7 @@
     "architectures": [
         "Project SMS Model"
     ],
-    "input_size": 595,
+    "input_size": 688,
     "hidden_size": 4096,
     "output_size": 4,
     "learning_rate": 0.001
