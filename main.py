@@ -2,6 +2,7 @@ import os
 import torch
 import torch.nn as nn
 import torch.optim as optim
+from torch.utils.data import TensorDataset, DataLoader
 import numpy as np
 import json
 from tqdm import tqdm
@@ -75,18 +76,28 @@ print("<訓練開始>")
 class SMSClassifier(nn.Module):
     def __init__(self, input_size, hidden_size, output_size):
         super(SMSClassifier, self).__init__()
-        self.fc1 = nn.Linear(input_size, hidden_size)
-        self.fc2 = nn.Linear(hidden_size, output_size)
-        self.relu = nn.ReLU()
+
+        # 輸入層到第一個隱藏層
+        self.fc1 = nn.Linear(input_size, int(hidden_size * 0.66)) 
+        self.relu1 = nn.ReLU()
+
+        # 第一個隱藏層到第二個隱藏層
+        self.fc2 = nn.Linear(int(hidden_size * 0.66), int(hidden_size * 0.66)) 
+        self.relu2 = nn.ReLU()
+
+        # 最後一個隱藏層到輸出層
+        self.fc3 = nn.Linear(int(hidden_size * 0.66), output_size)
         self.softmax = nn.Softmax(dim=-1)
 
     def forward(self, x):
-        x = self.fc1(x)
-        x = self.relu(x)
-        x = self.fc2(x)
+        x = self.fc1(x)  # 輸入層到第一個隱藏層
+        x = self.relu1(x)
+        x = self.fc2(x)  # 第一個隱藏層到第二個隱藏層
+        x = self.relu2(x)
+        x = self.fc3(x)  # 最後一個隱藏層到輸出層
         x = self.softmax(x)
         return x
-
+    
 # 設置模型參數
 input_size = len(vocab)
 hidden_size = 4096
@@ -97,31 +108,41 @@ model = SMSClassifier(input_size, hidden_size, output_size)
 model = model.to(device)  # 將模型移動到 GPU
 criterion = nn.CrossEntropyLoss()  # 使用 CrossEntropyLoss 作為損失函數
 criterion = criterion.to(device)  # 將損失函數移動到 GPU
-optimizer = optim.SGD(model.parameters(), lr=1e-3)
+optimizer = optim.SGD(model.parameters(), lr=5e-2)
 
 # 記錄開始訓練時間
 training_start_time = time.time()
 
+# 將數據轉換為 DataLoader 所需的張量
+features = [text_to_vector(text) for text in instructions]
+labels = [label_mapping[label] for label in outputs]
+tensor_x = torch.tensor(features, dtype=torch.float)
+tensor_y = torch.tensor(labels, dtype=torch.long)
+dataset = TensorDataset(tensor_x, tensor_y)
+
+# 創建 DataLoader 來加載批次數據
+batch_size = 32  # 根據需求設置批次大小
+train_loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+
 # 訓練模型
-epochs = 500
+epochs = 200
 for epoch in range(epochs):
     total_loss = 0
     start_time = time.time()
-    
-    for text_vector, label in train_data:  # 更新迭代變數為兩個值的元組
+
+    for batch_x, batch_y in train_loader:
         optimizer.zero_grad()
-        inputs = torch.tensor(text_vector, dtype=torch.float).to(device)
-        label = torch.tensor(label, dtype=torch.long).to(device)
-        output = model(inputs)
-        loss = criterion(output, label)
+        batch_x, batch_y = batch_x.to(device), batch_y.to(device)
+        output = model(batch_x)
+        loss = criterion(output, batch_y)
         loss.backward()
         optimizer.step()
         total_loss += loss.item()
         
     # 輸出每個 epoch 的平均損失
-    average_loss = total_loss / len(train_data)
-    
+    average_loss = total_loss / len(train_loader)
     # 計算運行時間
+    
     elapsed_time = time.time() - start_time
     # 計算預計完成時間
     eta = (epochs - epoch - 1) * elapsed_time
@@ -134,6 +155,7 @@ for epoch in range(epochs):
     fill_length = int(50 * progress / epochs)
     space_length = 50 - fill_length
     print(f"Processing: {percentage:3.0f}%|{'█' * fill_length}{' ' * space_length}| {progress}/{epochs} [{total_training_time:.2f}<{eta:.2f}, {1 / elapsed_time:.2f}it/s, Loss: {average_loss:.4f}] ")
+
     
 # 訓練結束 
 print("訓練完成")
