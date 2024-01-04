@@ -7,7 +7,7 @@ import json
 from tqdm import tqdm
 import time
 
-# 設備選擇如果有NVIDIA顯卡切換為CUDA
+# 檢測設備是否有 NVIDIA 顯卡，選擇使用 CUDA 還是 CPU
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # 環境檢測
@@ -15,9 +15,9 @@ print("<環境檢測>")
 print(f"PyTorch版本 : {torch.__version__}")
 print(f"訓練設備 : {device}")
 
-# 詞彙表生成
+# 生成詞彙表
 print("<詞彙表生成>")
-# 取得程式當前運行的資料夾路徑
+# 獲取當前運行程序的文件夾路徑
 current_directory = os.path.dirname(os.path.abspath(__file__))
 # 載入訓練數據
 json_model_path = os.path.join(current_directory, 'SMS_data.json')
@@ -94,7 +94,9 @@ output_size = len(label_mapping)
 
 # 初始化模型、損失函數和優化器
 model = SMSClassifier(input_size, hidden_size, output_size)
+model = model.to(device)  # 將模型移動到 GPU
 criterion = nn.CrossEntropyLoss()  # 使用 CrossEntropyLoss 作為損失函數
+criterion = criterion.to(device)  # 將損失函數移動到 GPU
 optimizer = optim.SGD(model.parameters(), lr=1e-3)
 
 # 記錄開始訓練時間
@@ -108,8 +110,8 @@ for epoch in range(epochs):
     
     for text_vector, label in train_data:  # 更新迭代變數為兩個值的元組
         optimizer.zero_grad()
-        inputs = torch.tensor(text_vector, dtype=torch.float)
-        label = torch.tensor(label, dtype=torch.long)
+        inputs = torch.tensor(text_vector, dtype=torch.float).to(device)
+        label = torch.tensor(label, dtype=torch.long).to(device)
         output = model(inputs)
         loss = criterion(output, label)
         loss.backward()
@@ -139,19 +141,14 @@ print("訓練完成")
 print("<生成模型配置文件>")
 # 定義模型配置
 model_config = {
-    "_name_or_path": "your_model_name_or_path",
-    "model_type": "your_model_type",
-    "architectures": [
-        "YourModelArchitecture"
-    ],
+    "_name_or_path": "Project SMS",
+    "model_type": "Project SMS",
+    "architectures": ["Project SMS Model"],
     "input_size": input_size,
     "hidden_size": hidden_size,
     "output_size": output_size,
     "learning_rate": optimizer.param_groups[0]['lr'],
 }
-model_config["_name_or_path"] = "Project SMS"
-model_config["model_type"] = "Project SMS"
-model_config["architectures"] = ["Project SMS Model"]
 
 # 儲存模型配置為 config.json
 config_path = os.path.join(current_directory, 'config.json')
