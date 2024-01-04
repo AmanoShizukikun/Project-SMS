@@ -66,10 +66,11 @@ cd Project-SMS
 python main.py
 ```
 
-### 懶人安裝
-直接運行run.bat
-
 - 開始測試
 ```shell
 python test.py
 ```
+
+
+### 懶人安裝
+直接運行run.bat
