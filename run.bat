@@ -1,0 +1,6 @@
+@echo off
+echo Installing required packages...
+python -m pip install torch numpy tqdm
+echo Packages installed. Running the program...
+python main.py
+python test.py
